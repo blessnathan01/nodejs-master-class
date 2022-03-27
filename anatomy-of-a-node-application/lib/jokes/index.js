@@ -28,4 +28,4 @@ jokes.allJokes = function() {
 };
 
 // Export the library
-modele.exports = jokes;
+module.exports = jokes;
