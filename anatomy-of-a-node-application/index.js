@@ -9,7 +9,7 @@
 
 // Dependencies
 var mathLib = require('./lib/math');
-var jokes = require('./lib/jokes');
+var jokesLib = require('./lib/jokes');
 
 
 // App object
