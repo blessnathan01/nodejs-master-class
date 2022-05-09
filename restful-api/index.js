@@ -41,8 +41,37 @@ var server = http.createServer(function(req, res) {
 
         buffer += decoder.end();
 
-        // Send the response
-        res.end('Hi there!\n');
+        // Choose the handler this request should go to. If not found, use notFound handler
+        var chosenHandler = typeof(router[trimmedPath]) !== 'undefined' ? router[trimmedPath] : handlers.notFound;
+
+        // Construct data object to send to handler
+        var data = {
+            'trimmedPath': trimmedPath,
+            'queryStringObject': queryStringObject,
+            'method': method,
+            'headers': headers,
+            'payload': buffer
+        };
+
+        // Route the request to the handler specified in the router
+        chosenHandler(data, function(statusCode, payload) {
+
+            // Use the status code called back by the handler, or default to 200
+            statusCode = typeof(statusCode) === 'number' ? statusCode : 200;
+
+            // Use the payload called back by the handler, or default to an empty object
+            payload = typeof(payload) === 'object' ? payload : {};
+
+            // Convert payload to string
+            var payloadString = JSON.stringify(payload);
+
+            // Return the response
+            res.writeHead(statusCode);
+            res.end(payloadString);
+
+            // Log the request
+            console.log('Response returned: ', statusCode, payloadString);
+        });
 
         // Log the path
         console.log('Request received on path: ' + trimmedPath + '\nHTTP method: ' +
@@ -59,3 +88,27 @@ server.listen(3000, function() {
     console.log("The server is listening on port 3000 now");
 
 });
+
+// Define the handlers
+var handlers = {};
+
+// Users handler
+handlers.users = function(data, callback) {
+
+    // Callback a http status code and payload object
+    callback(408, { 'name': 'users handler' });
+
+};
+
+// Not found handler
+handlers.notFound = function(data, callback) {
+
+    // Callback a http status code and an empty object
+    callback(404);
+
+};
+
+// Define a request router
+var router = {
+    'users': handlers.users
+};
