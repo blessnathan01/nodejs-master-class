@@ -66,6 +66,7 @@ var server = http.createServer(function(req, res) {
             var payloadString = JSON.stringify(payload);
 
             // Return the response
+            res.setHeader('Content-Type', 'application/json');
             res.writeHead(statusCode);
             res.end(payloadString);
 
@@ -85,18 +86,18 @@ var server = http.createServer(function(req, res) {
 // Start the server that will listen on port 3000
 server.listen(3000, function() {
 
-    console.log("The server is listening on port 3000 now");
+    console.log("The server is listening on port 3000");
 
 });
 
 // Define the handlers
 var handlers = {};
 
-// Users handler
-handlers.users = function(data, callback) {
+// products handler
+handlers.products = function(data, callback) {
 
     // Callback a http status code and payload object
-    callback(408, { 'name': 'users handler' });
+    callback(408, { 'name': 'products handler' });
 
 };
 
@@ -110,5 +111,5 @@ handlers.notFound = function(data, callback) {
 
 // Define a request router
 var router = {
-    'users': handlers.users
+    'products': handlers.products
 };
