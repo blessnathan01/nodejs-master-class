@@ -20,3 +20,9 @@ environments.production = {
 
 // Determine which environment was passed as a command-line argument i.e. environment to be exported
 var currentEnv = typeof(process.env.NODE_ENV) == 'string' ? process.env.NODE_ENV.toLowerCase() : '';
+
+// Check if the current environment is one of the available environments, if not, default to staging
+var envToExport = typeof(environments[currentEnv]) == 'object' ? environments[currentEnv] : environments.staging;
+
+// Export the module
+module.exports = envToExport;
