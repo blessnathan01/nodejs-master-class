@@ -1,6 +1,6 @@
 /**
  * Practice file
- * Author: Blssing Rweikiza
+ * Author: Blessing Rweikiza
  * 
  */
 
