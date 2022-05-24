@@ -105,7 +105,7 @@ handlers.products = function(data, callback) {
 handlers.notFound = function(data, callback) {
 
     // Callback a http status code and an empty object
-    callback(404);
+    callback(404, { 'name': 'notFound handler' });
 
 };
 
